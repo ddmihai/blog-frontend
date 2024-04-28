@@ -40,7 +40,7 @@ const ProfilePage = () => {
     */
     useEffect(() => {
         getAllCategories().then(data => setCategories(data));
-        getUserData().then(data => setUser(data)).catch(error => console.log(error));
+        getUserData().then(data => setUser(data));
     }, []);
 
 

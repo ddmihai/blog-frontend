@@ -45,11 +45,11 @@ const Header = () => {
 
                     <div className={` ${opened ? 'flex' : 'hidden'} flex-col gap-3 ml-4 py-6
                     lg:flex lg:flex-row lg:py-0 m-0`}>
-                        <Link to={''} >About us</Link>
-                        <Link to={''} >Categories</Link>
-                        <Link to={''} >Profile</Link>
-                        <Link to={''} >Signup</Link>
-                        <Link to={''} >Login</Link>
+                        <Link to={'/about'} >About us</Link>
+                        <Link to={'/blogs'} >Blogs</Link>
+                        <Link to={'/profile'} >Profile</Link>
+                        <Link to={'/signup'} >Signup</Link>
+                        <Link to={'/login'} >Login</Link>
                     </div>
                 </div>
             </aside>

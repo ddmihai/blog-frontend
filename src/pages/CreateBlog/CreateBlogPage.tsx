@@ -10,7 +10,7 @@ import AllCategories from "../Profile/components/AllCategories"
 import { axiosInstance } from "@/axios/axiosInstance"
 import ModalWithAddedImages from "./components/ModalWithAddedImages"
 import { getSingleBlogById } from "@/lib/blog/getBlogById"
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 
 
@@ -18,7 +18,10 @@ import { useNavigate } from "react-router-dom";
 
 const CreateBlogPage = () => {
 
-    const navigate = useNavigate()
+    const navigate = useNavigate();
+    const { state } = useLocation();
+
+
 
     // React markdown state
     const [content, setContent] = useState<string>('');
@@ -147,6 +150,51 @@ const CreateBlogPage = () => {
     }, [imagesForThisBlog]);
 
 
+
+
+    const handleAddEditBlogHeader = () => {
+        let createdBlog = {
+            _id: state.element._id,
+            title: title ? title : state.element.title,
+            subtitle: subtitle ? subtitle : state.element.subtitle
+        };
+
+        window.localStorage.setItem('blogData', JSON.stringify(createdBlog));
+
+        setBlogJustCreated(createdBlog as TBlogs);
+    }
+
+    const handleEditBlog = async () => {
+        try {
+            if (state.editMode && state.element) {
+                const blogId = state.element; // Assuming `state.element` is the blog post ID
+                await axiosInstance.put('/editblog', {
+                    _id: blogId,
+                    content
+                });
+
+                // Optionally, navigate back to the profile or a success page
+                navigate('/profile');
+            } else {
+                console.error('Edit mode is not enabled or blog ID is not available.');
+            }
+        } catch (error) {
+            // Show an error message to the user instead of just logging it
+            alert('Failed to edit the blog. Please try again.');
+            console.error(error);
+        }
+    };
+
+
+    useEffect(() => {
+        if (state?.editMode) {
+            window.localStorage.clear();
+        }
+    }, [navigate]);
+
+
+
+
     return (
         <main className="mx-auto max-w-7xl lg:flex ">
 
@@ -154,7 +202,7 @@ const CreateBlogPage = () => {
                 {/* Chosen pictures list / remove or visualise */}
                 <h2 className="p-2 text-xl text-[#333] font-bold mt-3">Available pictures</h2>
                 <ModalWithAddedImages
-                    imagesList={singleBlog}
+                    imagesList={state?.element ? state.element : singleBlog}
                 />
             </aside>
 
@@ -178,15 +226,15 @@ const CreateBlogPage = () => {
                         onChange={handleChangeSubtitle}
                     />
 
-                    <AllCategories
+                    {!state?.editMode && <AllCategories
                         setSelectedCategory={setSelectedCategory}
                         categories={categories}
-                    />
+                    />}
 
                     <Button
                         className="my-4 max-w-fit"
-                        onClick={handleCreateBlog}
-                        variant={'default'}>Create blog</Button>
+                        onClick={state?.editMode ? handleAddEditBlogHeader : handleCreateBlog}
+                        variant={'default'}>{state?.editMode ? 'Edit title and subtitle' : 'Create blog'}</Button>
 
                 </div>}
 
@@ -207,14 +255,24 @@ const CreateBlogPage = () => {
                                 onChange={handleContent}
                                 value={content}
                             />
-                            <Button
+                            {!state?.editMode && <Button
                                 className="mt-3"
                                 onClick={handleCompleteBlog}
-                                variant={'default'}>Create blog</Button>
+                                variant={'default'}>Create blog</Button>}
+
+                            {state?.editMode && <Button
+                                className="mt-3"
+                                onClick={handleEditBlog}
+                                variant={'default'}>Edit blog</Button>}
                         </div>
 
                     </section>
                 }
+
+
+
+
+
 
 
                 {/* Preview section */}
