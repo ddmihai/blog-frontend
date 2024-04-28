@@ -8,12 +8,19 @@ import CreateBlogPage from './pages/CreateBlog/CreateBlogPage';
 import Header from './components/Header/Header';
 import BlogsPage from './pages/Blogs/BlogsPage';
 import BlogPostById from './pages/BlogPost/BlogPostById';
+import { useEffect } from 'react';
+import axios from 'axios';
 
 
 
 
 
 function App() {
+
+  useEffect(() => {
+    axios.get('/').then(() => console.log('Server starting'));
+  }, [])
+
   return (
     <Router>
       <Header />

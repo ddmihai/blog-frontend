@@ -190,7 +190,7 @@ const CreateBlogPage = () => {
         if (state?.editMode) {
             window.localStorage.clear();
         }
-    }, [navigate]);
+    }, [window.location]);
 
 
 

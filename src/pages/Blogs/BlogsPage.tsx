@@ -34,8 +34,8 @@ const BlogsPage = () => {
 
 
     return (
-        <aside className="border-4 border-red-500 max-w-7xl mx-auto lg:flex">
-            <aside className="border-4 border-blue-600 flex-1 max-w-sm p-4">
+        <aside className="max-w-7xl mx-auto lg:flex">
+            <aside className="flex-1 max-w-xs p-4">
                 <AllCategories
                     categories={categories}
                     setSelectedCategory={setSelectedCategory}
@@ -43,7 +43,10 @@ const BlogsPage = () => {
             </aside>
 
             {/* right side */}
-            <aside className="border-4 border-green-600 flex-1">
+            <aside className="flex-1 w-full p-4 bg-slate-50 rounded-lg">
+
+                {blogs?.length === 0 && <h1 className="text-2xl text-[#333] font-semibold">No blogs created yet!</h1>}
+
                 {
                     blogs?.map(element => (
                         <div key={element._id} className="max-w-xs relative rounded-xl overflow-hidden h-[250px] border m-3">
