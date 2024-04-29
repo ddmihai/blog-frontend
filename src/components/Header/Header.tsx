@@ -6,8 +6,7 @@ import { useState } from "react";
 import { RiMenuLine } from "react-icons/ri";
 
 
-const Header = () => {
-
+const Header = ({ user }: { user: IUser | undefined }) => {
 
     const [opened, setOpen] = useState(false);
 
@@ -47,9 +46,9 @@ const Header = () => {
                     lg:flex lg:flex-row lg:py-0 m-0`}>
                         <Link to={'/about'} >About us</Link>
                         <Link to={'/blogs'} >Blogs</Link>
-                        <Link to={'/profile'} >Profile</Link>
-                        <Link to={'/signup'} >Signup</Link>
-                        <Link to={'/login'} >Login</Link>
+                        {user && <Link to={'/profile'} >Profile</Link>}
+                        {!user && <Link to={'/signup'} >Signup</Link>}
+                        {!user && <Link to={'/login'} >Login</Link>}
                     </div>
                 </div>
             </aside>

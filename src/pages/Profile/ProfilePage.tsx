@@ -24,7 +24,11 @@ const ProfilePage = () => {
     const [categories, setCategories] = useState<TCategory[]>();
     const [selectedCategory, setSelectedCategory] = useState<string | undefined>();
     const [user, setUser] = useState<IUser>();
-    console.log(selectedCategory);
+    //es-lint 
+    console.log(selectedCategory)
+
+
+
 
     /**
      *      NAVIGATION 

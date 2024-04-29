@@ -8,8 +8,9 @@ import CreateBlogPage from './pages/CreateBlog/CreateBlogPage';
 import Header from './components/Header/Header';
 import BlogsPage from './pages/Blogs/BlogsPage';
 import BlogPostById from './pages/BlogPost/BlogPostById';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import axios from 'axios';
+import { getUserData } from './lib/users/getUserData';
 
 
 
@@ -17,13 +18,17 @@ import axios from 'axios';
 
 function App() {
 
+
+  const [user, setUser] = useState();
+
   useEffect(() => {
     axios.get('/').then(() => console.log('Server starting'));
+    getUserData().then(data => setUser(data))
   }, [])
 
   return (
     <Router>
-      <Header />
+      <Header user={user} />
 
       <Routes>
         <Route path="/" element={<HomePage />} />
